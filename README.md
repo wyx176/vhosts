@@ -1,3 +1,4 @@
+## <a href="https://github.com/wyx176/vhosts/blob/master/README_ZH.md">中文</a></li>
 ## Virtual Hosts
 hosts for android,implement by vpn mode,supports wildcard DNS records
 
@@ -26,7 +27,7 @@ support wildcard DNS records.For example:
 
 #### LICENSE
 
-Copyright (C) 2017  xfalcon
+Copyright (C) 2017  
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
