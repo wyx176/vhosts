@@ -1,0 +1,6 @@
+# Localhost (DO NOT REMOVE) Start
+127.0.0.1 localhost
+::1 localhost
+::1 ip6-localhost
+::1 ip6-loopback
+# Localhost (DO NOT REMOVE) End
