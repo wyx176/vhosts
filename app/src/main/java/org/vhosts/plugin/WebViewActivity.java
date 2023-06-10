@@ -1,9 +1,11 @@
 package org.vhosts.plugin;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.webkit.DownloadListener;
@@ -19,7 +21,10 @@ import com.qmuiteam.qmui.widget.webview.QMUIWebView;
 import com.qmuiteam.qmui.widget.webview.QMUIWebViewClient;
 import com.qmuiteam.qmui.widget.webview.QMUIWebViewContainer;
 
+import org.vhosts.plugin.domain.OpenAction;
 import org.vhosts.plugin.domain.VersionInfo;
+
+import java.nio.charset.StandardCharsets;
 
 public class WebViewActivity extends Activity {
     private QMUITopBarLayout topBar;
@@ -28,6 +33,8 @@ public class WebViewActivity extends Activity {
     QDWebView mWebView;
 
     public static final  String HOST_DATA = "HOST_DATA";
+
+    public static final  String SET_DNS = "http://open.action/";
 
     private VersionInfo info;
     @Override
@@ -83,6 +90,25 @@ public class WebViewActivity extends Activity {
                             getApplicationContext().startActivity(intent);
                         }
                         return true;
+                    }
+                    else{
+                        //在地址中包含有http://open.action/的会打开活动
+                       if(request.getUrl().toString().contains("open.action")){
+                           String url = request.getUrl().getQueryParameter("url");
+                           if(url!=null && url!=""){
+                                url = url.replace(SET_DNS,"");
+                                url = new String(Base64.decode(url.getBytes(StandardCharsets.UTF_8),Base64.DEFAULT));
+                               OpenAction setDns = JSONObject.parseObject(url, OpenAction.class);
+                               if(setDns!=null){
+                                   Intent intent = new Intent();
+                                   intent.setAction(setDns.getAction());
+                                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                   intent.setComponent(new ComponentName(setDns.getPackages(),setDns.getActivity()));
+                                   getApplicationContext().startActivity(intent);
+                                   return true;
+                               }
+                           }
+                       }
                     }
                 }
                 return false;
